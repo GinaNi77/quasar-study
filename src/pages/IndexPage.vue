@@ -1,9 +1,9 @@
 <template>
 
   <q-page class="flex flex-center">
-   <q-card class="my-card" style="width: 600px">
+   <q-card class="my-card bg-pink-1" style="width: 600px">
       <q-card-section>
-       <div class="text-h5 text-weight-bol">My Todo List</div>
+       <div class="text-h4 text-weight-bol text-pink-10 text-center">My Todo List</div>
       </q-card-section>
 
       <q-card-section>
@@ -11,7 +11,7 @@
           <div class="col-10">
            <q-input outlined v-model="newTodo" label="add todo">
             <template v-slot:after>
-              <q-btn round dense flat icon="send" @click="addTodo"/>
+              <q-btn round dense flat icon="send" class="text-pink-10" @click="addTodo"/>
             </template>
            </q-input>
           </div>
