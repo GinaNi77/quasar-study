@@ -29,7 +29,7 @@
       >
         <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
           <q-list padding>
-            <q-item clickable v-ripple>
+            <q-item to="/" exact clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="description" class="text-pink-8"/>
               </q-item-section>
@@ -39,7 +39,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple>
+            <q-item to="/help" exact clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="accessibility" class="text-pink-8"/>
               </q-item-section>
@@ -49,7 +49,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple>
+            <q-item to="/about" exact clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="face" class="text-pink-8"/>
               </q-item-section>
@@ -59,7 +59,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple>
+            <q-item to="/contacts" exact clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="call" class="text-pink-8" />
               </q-item-section>
@@ -83,8 +83,13 @@
       </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </q-page-container>
+
   </q-layout>
 </template>
 
