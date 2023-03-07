@@ -6,12 +6,21 @@
        <div class="text-h4 text-weight-bol text-pink-10 text-center">My Todo List</div>
       </q-card-section>
 
-      <q-card-section>
+       <div class="row justify-center">
+            <div class="q-pb-md " v-if="editing">
+              <q-btn round dense flat icon="close" @click="doEdit(false)" color="pink-8"/>
+            </div>
+            <div class="q-pb-md " v-else>
+              <q-btn round dense flat icon="edit" @click="doEdit(true)" color="pink-8"/>
+            </div>
+        </div>
+
+      <q-card-section v-if:="editing">
         <div class="row justify-center">
           <div class="col-10">
            <q-input outlined v-model="newTodo" label="add todo">
             <template v-slot:after>
-              <q-btn round dense flat icon="send" class="text-pink-10" @click="addTodo"/>
+              <q-btn round dense flat icon="send" class="text-pink-10" @click="addTodo" :disabled="newTodo===''"/>
             </template>
            </q-input>
           </div>
@@ -50,6 +59,7 @@ export default defineComponent({
   name: 'IndexPage',
   data(){
     return{
+      editing: false,
       newTodo:"",
       todoList: [
         {id:"1", value: "buy apples", done: false},
@@ -66,6 +76,11 @@ export default defineComponent({
     deleteTodo(index){
       this.todoList.splice(index, 1)
     }, 
+
+    doEdit(e){
+    this.editing = e
+    this.newTodo = ""
+    }
   }
 })
 </script>
