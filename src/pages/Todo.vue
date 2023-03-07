@@ -19,15 +19,15 @@
       </q-card-section>
 
       <q-card-section v-if="todoList.length>0">
-        <div class="row justify-center" v-for="todo in todoList" :key="todo.id">
-          <div class="col-8 items-center flex q-pb-md">
+        <div class="row justify-center" v-for="todo in todoList" :key="todo.id" @click="todo.done=!todo.done">
+          <div class="col-auto q-mr-sm q-pb-md">
+            <q-checkbox v-model="todo.done" color="pink-10"/>
+          </div>
+          <div class="col-8 items-center flex q-pb-md" :class="{'text-pink-10' : todo.done}">
             {{todo.value}}
           </div>
-          <div class="col-auto q-pb-md" >
-            <q-btn round dense flat icon="done"/>
-          </div>
           <div class="col-auto q-pb-md">
-            <q-btn round dense flat icon="delete" @click="deleteTodo(index)"/>
+            <q-btn round dense flat icon="delete" @click="deleteTodo(index)" color="pink-8"/>
           </div>
         </div>
       </q-card-section>
@@ -52,15 +52,15 @@ export default defineComponent({
     return{
       newTodo:"",
       todoList: [
-        {id:"1", value: "buy apples", done: "false"},
-        {id:"2", value: "buy bananas", done: "false"},
-        {id:"3", value: "buy cherry", done: "false"}
+        {id:"1", value: "buy apples", done: false},
+        {id:"2", value: "buy bananas", done: false},
+        {id:"3", value: "buy cherry", done: false}
       ]    
       }
   },
   methods: {
     addTodo(){
-      this.todoList.push({id: this.todoList.length+1, value: this.newTodo})
+      this.todoList.push({id: this.todoList.length+1, value: this.newTodo, done:false })
       this.newTodo=""
     },
     deleteTodo(index){
