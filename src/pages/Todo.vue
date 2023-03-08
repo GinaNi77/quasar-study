@@ -41,19 +41,24 @@
       </q-card-section>
 
       <q-card-section v-if="todoList.length>0">
-        <div class="row justify-center"
+        
+        <div class="row justify-center bg-pink-2"
           v-for="todo in todoList"
           :key="todo.id"
           @click="todo.done=!todo.done">
+
           <div class="col-auto q-mr-sm q-pb-md">
             <q-checkbox v-model="todo.done" color="pink-10"/>
           </div>
+
           <div class="col-8 items-center flex q-pb-md" :class="{'text-pink-10' : todo.done}">
             {{todo.value}}
           </div>
+
           <div class="col-auto q-pb-md">
             <q-btn round dense flat icon="delete" @click="deleteTodo(index)" color="pink-8"/>
           </div>
+
         </div>
       </q-card-section>
 
