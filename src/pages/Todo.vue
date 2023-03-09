@@ -10,6 +10,7 @@
             <div v-if="editing">
               <q-btn round dense flat
               icon="close"
+            
               @click="doEdit(false)"
               color="pink-8"/>
             </div>
@@ -25,13 +26,14 @@
       <q-card-section v-if:="editing">
         <div class="row justify-center">
           <div class="col-10">
-           <q-input outlined v-model="newTodo" label="add todo">
+           <q-input outlined v-model="newTodo" label="add todo" @keyup.enter="addTodo">
 
             <template v-slot:after>
               <q-btn round dense flat
               icon="send"
               class="text-pink-10"
               @click="addTodo"
+              
               :disabled="newTodo===''"/>
             </template>
 
@@ -42,7 +44,7 @@
 
       <q-card-section v-if="todoList.length>0">
         
-        <div class="row justify-center bg-pink-2"
+        <div class="row justify-center"
           v-for="todo in todoList"
           :key="todo.id"
           @click="todo.done=!todo.done">
@@ -92,7 +94,19 @@ export default defineComponent({
       this.newTodo=""
     },
     deleteTodo(index){
-      this.todoList.splice(index, 1)
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Would you like to delete this task?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+          this.todoList.splice(index, 1)
+           this.$q.notify({
+          message: 'Todo deleted.',
+          color: 'pink'
+        })
+      })
+      
     }, 
 
     doEdit(e){
