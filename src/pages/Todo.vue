@@ -43,7 +43,6 @@
       </q-card-section>
 
       <q-card-section v-if="todoList.length>0">
-        
         <div class="row justify-center"
           v-for="todo in todoList"
           :key="todo.id"
@@ -54,11 +53,11 @@
           </div>
 
           <div class="col-8 items-center flex q-pb-md" :class="{'text-pink-10' : todo.done}">
-            {{todo.value}}
+            {{todo.value}}  
           </div>
 
           <div class="col-auto q-pb-md">
-            <q-btn round dense flat icon="delete" @click="deleteTodo(index)" color="pink-8"/>
+            <q-btn round dense flat icon="delete" @click.stop="deleteTodo(todo.id)" color="pink-8"/>
           </div>
 
         </div>
@@ -69,50 +68,61 @@
           No todos
         </div>
       </q-card-section>
-      
-
+    
     </q-card>
   </q-page>
 </template>
 
-<script>
-import {defineComponent} from 'vue'
+<script >
+import {defineComponent, ref} from 'vue'
 import { v4 as uuidv4 } from 'uuid';
+import {useQuasar} from 'quasar'
 
 export default defineComponent({
   name: 'IndexPage',
-  data(){
-    return{
-      editing: false,
-      newTodo:"",
-      todoList: []    
+  setup(){
+
+    const editing = ref(false);
+    const newTodo = ref("");
+    const  todoList =ref([]);
+    const $q = useQuasar();
+
+    const addTodo = ()=>{
+
+      const newItem = {
+        id: uuidv4(),
+        value: newTodo.value,
+        done:false
       }
-  },
-  methods: {
-    addTodo(){
-      this.todoList.push({id: uuidv4(), value: this.newTodo, done:false })
-      this.newTodo=""
-    },
-    deleteTodo(index){
-      this.$q.dialog({
+      todoList.value.push(newItem)
+      newTodo.value = ""
+    };
+
+      const deleteTodo= (id)=> {
+        $q.dialog({
         title: 'Confirm',
         message: 'Would you like to delete this task?',
         cancel: true,
         persistent: true
       }).onOk(() => {
-          this.todoList.splice(index, 1)
-           this.$q.notify({
+          todoList.value = todoList.value.filter(todo => todo.id !== id)
+          $q.notify({
           message: 'Todo deleted.',
           color: 'pink'
         })
       })
-      
-    }, 
+        
+      }   
+    
+    const doEdit = (e)=>{
+      editing.value = e
+      newTodo.value = ""
+  }
 
-    doEdit(e){
-    this.editing = e
-    this.newTodo = ""
+    return{
+      newTodo, editing, addTodo, todoList, doEdit, deleteTodo, $q
     }
   }
+  
 })
 </script>
